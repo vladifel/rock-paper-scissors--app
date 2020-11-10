@@ -1,0 +1,28 @@
+#inner_icon {
+    width: 4.5rem;
+    height: 4.5rem;
+}
+
+#action_button {
+    width: 8rem;
+    height: 8rem;
+    border: 0.5rem solid #54bbb8;
+    border-radius: 4rem;
+    color: #14143c;
+    cursor: pointer;
+    background-color: #ffffff;
+    font-size: 2rem;
+    font-weight: 1000;
+    text-align: center;
+    box-shadow: 0.0625rem 0 0.1875rem 0.0625rem rgba(68, 140, 140, 0.5);
+}
+
+#action_button:hover {
+    color: #ffffff;
+    background-color:#20205e;
+}
+
+#action_button:active {
+    width: 7.8rem;
+    height: 7.8rem;
+}
