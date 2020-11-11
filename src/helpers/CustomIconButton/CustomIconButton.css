@@ -8,13 +8,21 @@
     height: 8rem;
     border: 0.5rem solid #54bbb8;
     border-radius: 4rem;
-    color: #14143c;
     cursor: pointer;
-    background-color: #ffffff;
     font-size: 2rem;
     font-weight: 1000;
     text-align: center;
     box-shadow: 0.0625rem 0 0.1875rem 0.0625rem rgba(68, 140, 140, 0.5);
+}
+
+.selected {
+    color: #ffffff;
+    background-color:#20205e;
+}
+
+.not_selected {
+    color: #14143c;
+    background-color: #ffffff;
 }
 
 #action_button:hover {

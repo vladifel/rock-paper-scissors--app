@@ -1,0 +1,32 @@
+#inner_small_icon {
+    width: 2rem;
+    height: 2rem;
+}
+
+#small_button {
+    width: 4rem;
+    height: 4rem;
+    border: 0.25rem solid #54bbb8;
+    border-radius: 4rem;
+    cursor: pointer;
+    font-size: 2rem;
+    font-weight: 1000;
+    text-align: center;
+    color: #14143c;
+    background-color: #ffffff;
+    box-shadow: 0.0625rem 0 0.1875rem 0.0625rem rgba(68, 140, 140, 0.5);
+}
+
+#small_button:hover {
+    color: #ffffff;
+    background-color:#20205e;
+}
+
+#small_button:active {
+    width: 3.8rem;
+    height: 3.8rem;
+}
+
+.sync {
+    padding-top: 0.5rem;
+}

@@ -17,8 +17,9 @@ export enum IconTypes {
 }
 interface CustomIconButtonProps {
     iconType: IconTypes;
-
-    onClick: () => void;
+    isSelected?: boolean;
+    side?: 'left' | 'right';
+    onClick: (type: IconTypes) => void;
 }
 
 const CustomIconButton: React.FunctionComponent<CustomIconButtonProps> = (props: CustomIconButtonProps) => {
@@ -37,8 +38,9 @@ const CustomIconButton: React.FunctionComponent<CustomIconButtonProps> = (props:
 
     return (
         <button
-            id='action_button'
-            onClick={props.onClick}>
+            id={'action_button'}
+            className={props.isSelected ? 'selected' : 'not_selected'}
+            onClick={() => props.onClick(props.iconType)}>
             {icon}
         </button>
     )

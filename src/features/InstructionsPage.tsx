@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from 'react-router-dom';
 import rules1 from "../assets/rules1.png";
 import LetsPlayButton from '../helpers/LetsPlayButton/LetsPlayButton';
 
@@ -45,9 +46,11 @@ const styles: any = {
 interface InstructionsPageProps { }
 
 const InstructionsPage: React.FunctionComponent<InstructionsPageProps> = (props: InstructionsPageProps) => {
+  let history = useHistory();
   const onClick = () => {
-    alert("Let's Play!")
+    history.push('/play')
   }
+
   return (
     <div style={styles.root}>
       <h1 style={styles.header}>Rock - Paper - Scissors - Lizard - Spock</h1>
