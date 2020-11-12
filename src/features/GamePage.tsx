@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import CustomIconButton, { IconTypes } from "../helpers/CustomIconButton/CustomIconButton";
 import SmallIIconButton from "../helpers/SmallIconButton/SmallIconButton";
+import './GamePage.css';
 
 const styles: any = {
     board: {
@@ -299,6 +300,8 @@ const GamePage: React.FunctionComponent<GamePageProps> = (props: GamePageProps) 
     }
 
     const onButtonPressed = (type: IconTypes) => {
+        setOutcome(undefined);
+        setDidPlayerWin(null)
         setPlayerNum(null);
         setMachineNum(null);
         setSelectedMachineNum(null);
@@ -354,7 +357,10 @@ const GamePage: React.FunctionComponent<GamePageProps> = (props: GamePageProps) 
                             {outcome && <h2 style={media ? styles.outcomeTextMedia : styles.outcomeText}>{outcome}</h2>}
                         </div>
                         {didPlayerWin !== null &&
-                            <h3>{didPlayerWin === undefined ? "it's a Tie!" : didPlayerWin ? "You Win!!" : "The Machine wins :-("}</h3>}
+                            <div id='outcome'>
+                                <h3 >{didPlayerWin === undefined ? "it's a Tie!" : didPlayerWin ? "You Win!!" : "The Machine wins :-("}</h3>
+                            </div>
+                        }
                     </div>
                 </div>
                 <div style={media ? styles.selectedActionMedia : styles.selectedAction}>
