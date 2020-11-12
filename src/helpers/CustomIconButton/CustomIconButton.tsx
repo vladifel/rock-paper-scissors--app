@@ -36,10 +36,12 @@ const CustomIconButton: React.FunctionComponent<CustomIconButtonProps> = (props:
         icon = <FaRegHandSpock id='inner_icon' />;
     }
 
+    let className = props.isSelected ? 'selected' : 'not_selected';
+    props.side && (className = `${className} ${props.side}`);
     return (
         <button
             id={'action_button'}
-            className={props.isSelected ? 'selected' : 'not_selected'}
+            className={className}
             onClick={() => props.onClick(props.iconType)}>
             {icon}
         </button>

@@ -89,6 +89,11 @@ const styles: any = {
     scoreSeparator: {
         paddingBottom: '0.5rem'
     },
+    selectedAction: {
+        display: "flex",
+        alignItems: 'flex-end',
+        minHeight: '30rem'
+    },
     topBar: {
         display: "flex",
         flexDirection: 'row',
@@ -295,8 +300,8 @@ const GamePage: React.FunctionComponent<GamePageProps> = (props: GamePageProps) 
                 <div style={styles.playerIcons}>
                     {playerIcons(onButtonPressed, props)}
                 </div>
-                <div>
-                    {currPlayerNum && actionIcon(currPlayerNum, onMachineClick, props, true, 'left')}
+                <div style={styles.selectedAction}>
+                    {currPlayerNum ? actionIcon(currPlayerNum, onMachineClick, props, true, 'left') : undefined}
                 </div>
                 <div style={styles.board}>
                     <div style={styles.scores}>
@@ -314,8 +319,8 @@ const GamePage: React.FunctionComponent<GamePageProps> = (props: GamePageProps) 
                             <h3>{didPlayerWin === undefined ? "it's a Tie!" : didPlayerWin ? "You Win!!" : "The Machine wins :-("}</h3>}
                     </div>
                 </div>
-                <div>
-                    {currMachineNum && actionIcon(currMachineNum, onMachineClick, props, true, 'right')}
+                <div style={styles.selectedAction}>
+                    {currMachineNum ? actionIcon(currMachineNum, onMachineClick, props, true, 'right') : undefined}
                 </div>
                 <div style={styles.computerIcons}>
                     {machineIcons(onMachineClick, currMachineNum, props)}
