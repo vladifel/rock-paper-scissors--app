@@ -35,6 +35,208 @@
     height: 7.8rem;
 }
 
-.left {
-    
+@media (max-width: 1160px), (max-height: 850px) {
+    #inner_icon {
+        width: 2.25rem;
+        height: 2.25rem;
+    }
+
+    #action_button {
+        width: 4rem;
+        height: 4rem;
+        border: 0.25rem solid #54bbb8;
+        border-radius: 2rem;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 1000;
+        text-align: center;
+        box-shadow: 0.0625rem 0 0.1875rem 0.0625rem rgba(68, 140, 140, 0.5);
+    }
+
+    #action_button:active {
+        width: 3.9rem;
+        height: 3.9rem;
+    }
+  }
+
+/* Left-Side Animations */
+.left_spock {
+    animation: left_spock 0.5s linear;
+}
+
+@keyframes left_spock {
+    0% {
+        transform: translate(-8rem, 16rem);
+    }
+
+    50% {
+        transform: translate(-4rem, 8rem);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+.left_lizard {
+    animation: left_lizard 0.5s linear;
+}
+
+@keyframes left_lizard {
+    0% {
+        transform: translate(-8rem, 8rem);
+    }
+
+    50% {
+        transform: translate(-4rem, 4rem);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+.left_scissors {
+    animation: left_scissors 0.5s linear;
+}
+
+@keyframes left_scissors {
+    0% {
+        transform: translate(-8rem, 0);
+    }
+
+    50% {
+        transform: translate(-4rem, 0);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+.left_paper {
+    animation: left_paper 0.5s linear;
+}
+
+@keyframes left_paper {
+    0% {
+        transform: translate(-8rem, -8rem);
+    }
+
+    50% {
+        transform: translate(-4rem, -4rem);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+.left_rock {
+    animation: left_rock 0.5s linear;
+}
+
+@keyframes left_rock {
+    0% {
+        transform: translate(-8rem, -16rem);
+    }
+
+    50% {
+        transform: translate(-4rem, -8rem);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+/* Right-Side Animations */
+.right_spock {
+    animation: right_spock 0.5s linear;
+}
+
+@keyframes right_spock {
+    0% {
+        transform: translate(8rem, 16rem);
+    }
+
+    50% {
+        transform: translate(4rem, 8rem);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+.right_lizard {
+    animation: right_lizard 0.5s linear;
+}
+
+@keyframes right_lizard {
+    0% {
+        transform: translate(8rem, 8rem);
+    }
+
+    50% {
+        transform: translate(4rem, 4rem);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+.right_scissors {
+    animation: right_scissors 0.5s linear;
+}
+
+@keyframes right_scissors {
+    0% {
+        transform: translate(8rem, 0);
+    }
+
+    50% {
+        transform: translate(4rem, 0);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+.right_paper {
+    animation: right_paper 0.5s linear;
+}
+
+@keyframes right_paper {
+    0% {
+        transform: translate(8rem, -8rem);
+    }
+
+    50% {
+        transform: translate(4rem, -4rem);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+.right_rock {
+    animation: right_rock 0.5s linear;
+}
+
+@keyframes right_rock {
+    0% {
+        transform: translate(8rem, -16rem);
+    }
+
+    50% {
+        transform: translate(4rem, -8rem);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
 }

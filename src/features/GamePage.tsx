@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import CustomIconButton, { IconTypes } from "../helpers/CustomIconButton/CustomIconButton";
 import SmallIIconButton from "../helpers/SmallIconButton/SmallIconButton";
@@ -57,6 +57,12 @@ const styles: any = {
         borderRadius: '0.5rem',
         padding: '1rem 5rem'
     },
+    outcomeTextMedia: {
+        color: '#047dab',
+        border: '0.25rem solid #54bbb8',
+        borderRadius: '0.25rem',
+        padding: '1rem 2.5rem'
+    },
     outcomeTextContainer: {
         display: 'flex',
         justifyContent: 'center',
@@ -92,7 +98,14 @@ const styles: any = {
     selectedAction: {
         display: "flex",
         alignItems: 'flex-end',
-        minHeight: '30rem'
+        minHeight: '30rem',
+        minWidth: '8rem'
+    },
+    selectedActionMedia: {
+        display: "flex",
+        alignItems: 'flex-end',
+        minHeight: '18.1rem',
+        minWidth: '4rem'
     },
     topBar: {
         display: "flex",
@@ -173,7 +186,27 @@ const outcomeText = (type: IconTypes, machineNum: number): string | undefined =>
     return outcome;
 }
 
-const actionIcon = (type: IconTypes, onClick: (type: IconTypes) => void, props: GamePageProps, isSelected?: boolean, side?: 'left' | 'right') => {
+const results = (
+    type: IconTypes,
+    machineNum: number,
+    playerScore: number,
+    machineScore: number,
+    setDidPlayerWin: (playerWins: boolean | undefined) => void,
+    setPlayerScore: (playerScore: number) => void,
+    setMachineScore: (machineScore: number) => void,
+    setOutcome: (playerWins: string | undefined) => void
+) => {
+    const playerWins = whoWins(type, machineNum);
+    setDidPlayerWin(playerWins);
+    if (playerWins) {
+        setPlayerScore(playerScore + 1);
+    } else if (playerWins === false) {
+        setMachineScore(machineScore + 1);
+    }
+    setOutcome(outcomeText(type, machineNum));
+}
+
+const actionIcon = (type: IconTypes, onClick: (type: IconTypes) => void, isSelected?: boolean, side?: 'left' | 'right') => {
     return (
         <div style={styles.icon}>
             <CustomIconButton
@@ -186,7 +219,7 @@ const actionIcon = (type: IconTypes, onClick: (type: IconTypes) => void, props: 
     )
 }
 
-const resetIcon = (onClick: () => void, props: GamePageProps, isSelected?: boolean) => {
+const resetIcon = (onClick: () => void) => {
     return (
         <div style={styles.iconSmall}>
             <SmallIIconButton
@@ -197,7 +230,7 @@ const resetIcon = (onClick: () => void, props: GamePageProps, isSelected?: boole
     )
 }
 
-const rulesIcon = (onClick: () => void, props: GamePageProps, isSelected?: boolean) => {
+const rulesIcon = (onClick: () => void) => {
     return (
         <div style={styles.iconSmall}>
             <SmallIIconButton
@@ -208,38 +241,46 @@ const rulesIcon = (onClick: () => void, props: GamePageProps, isSelected?: boole
     )
 }
 
-const playerIcons = (onClick: (type: IconTypes) => void, props: GamePageProps) => {
+const playerIcons = (onClick: (type: IconTypes) => void) => {
     return (
         <div style={styles.icons}>
-            {actionIcon(IconTypes.Rock, onClick, props)}
-            {actionIcon(IconTypes.Paper, onClick, props)}
-            {actionIcon(IconTypes.Scissors, onClick, props)}
-            {actionIcon(IconTypes.Lizard, onClick, props)}
-            {actionIcon(IconTypes.Spock, onClick, props)}
+            {actionIcon(IconTypes.Rock, onClick)}
+            {actionIcon(IconTypes.Paper, onClick)}
+            {actionIcon(IconTypes.Scissors, onClick)}
+            {actionIcon(IconTypes.Lizard, onClick)}
+            {actionIcon(IconTypes.Spock, onClick)}
         </div>
     )
 }
 
-const machineIcons = (onClick: () => void, currMachineNum: null | number, props: GamePageProps) => {
+const machineIcons = (onClick: () => void, currMachineNum: null | number) => {
     return (
         <div style={styles.icons}>
-            {actionIcon(IconTypes.Rock, onClick, props, currMachineNum === IconTypes.Rock)}
-            {actionIcon(IconTypes.Paper, onClick, props, currMachineNum === IconTypes.Paper)}
-            {actionIcon(IconTypes.Scissors, onClick, props, currMachineNum === IconTypes.Scissors)}
-            {actionIcon(IconTypes.Lizard, onClick, props, currMachineNum === IconTypes.Lizard)}
-            {actionIcon(IconTypes.Spock, onClick, props, currMachineNum === IconTypes.Spock)}
+            {actionIcon(IconTypes.Rock, onClick, currMachineNum === IconTypes.Rock)}
+            {actionIcon(IconTypes.Paper, onClick, currMachineNum === IconTypes.Paper)}
+            {actionIcon(IconTypes.Scissors, onClick, currMachineNum === IconTypes.Scissors)}
+            {actionIcon(IconTypes.Lizard, onClick, currMachineNum === IconTypes.Lizard)}
+            {actionIcon(IconTypes.Spock, onClick, currMachineNum === IconTypes.Spock)}
         </div>
     )
 }
 
 const GamePage: React.FunctionComponent<GamePageProps> = (props: GamePageProps) => {
+    const [width, setWidth] = useState();
     const [currMachineNum, setMachineNum] = useState<null | number>(null);
+    const [selectedMachineNum, setSelectedMachineNum] = useState<null | number>(null);
     const [currPlayerNum, setPlayerNum] = useState<null | number>(null);
     const [didPlayerWin, setDidPlayerWin] = useState<boolean | null | undefined>(null);
     const [outcome, setOutcome] = useState<string | undefined>(undefined);
     const [playerScore, setPlayerScore] = useState<number>(0);
     const [machineScore, setMachineScore] = useState<number>(0);
     let history = useHistory();
+    useEffect(() => {
+        setWidth(window.innerWidth as any);
+        window.addEventListener("resize", () => setWidth(window.innerWidth as any));
+    }, []);
+
+    const media = width !== undefined && width! >= 1160 ? false : true;
 
     const onMachineClick = () => {
         console.log("I can decide for myself!!")
@@ -258,21 +299,27 @@ const GamePage: React.FunctionComponent<GamePageProps> = (props: GamePageProps) 
     }
 
     const onButtonPressed = (type: IconTypes) => {
+        setPlayerNum(null);
+        setMachineNum(null);
+        setSelectedMachineNum(null);
         const machineNum = Math.floor(Math.random() * 5);
         setPlayerNum(type);
         Promise.resolve()
-            .then(() => delay(200))
+            .then(() => delay(50))
             .then(() => setMachineNum(2))
-            .then(() => delay(270))
+            .then(() => delay(100))
             .then(() => setMachineNum(1))
-            .then(() => delay(340))
+            .then(() => delay(150))
             .then(() => setMachineNum(3))
-            .then(() => delay(410))
+            .then(() => delay(200))
             .then(() => setMachineNum(0))
-            .then(() => delay(480))
+            .then(() => delay(250))
             .then(() => setMachineNum(4))
-            .then(() => delay(600))
-            .then(() => setMachineNum(machineNum));
+            .then(() => delay(300))
+            .then(() => setMachineNum(machineNum))
+            .then(() => setSelectedMachineNum(machineNum))
+            .then(() => delay(320))
+            .then(() => results(type, machineNum, playerScore, machineScore, setDidPlayerWin, setPlayerScore, setMachineScore, setOutcome));
 
         const delay = (duration: number) => {
             return new Promise((resolve) => {
@@ -280,28 +327,19 @@ const GamePage: React.FunctionComponent<GamePageProps> = (props: GamePageProps) 
             });
         }
 
-        const playerWins = whoWins(type, machineNum);
-        setDidPlayerWin(playerWins);
-        if (playerWins) {
-            setPlayerScore(playerScore + 1);
-        } else if (playerWins === false) {
-            setMachineScore(machineScore + 1);
-        }
-        setOutcome(outcomeText(type, machineNum));
-        console.log(type, machineNum, playerWins);
     }
     return (
         <div style={styles.root}>
             <div style={styles.topBar}>
-                {rulesIcon(onInfoClick, props)}
-                {resetIcon(onResetClick, props)}
+                {rulesIcon(onInfoClick)}
+                {resetIcon(onResetClick)}
             </div>
             <div style={styles.mainContainer}>
                 <div style={styles.playerIcons}>
-                    {playerIcons(onButtonPressed, props)}
+                    {playerIcons(onButtonPressed)}
                 </div>
-                <div style={styles.selectedAction}>
-                    {currPlayerNum ? actionIcon(currPlayerNum, onMachineClick, props, true, 'left') : undefined}
+                <div style={media ? styles.selectedActionMedia : styles.selectedAction}>
+                    {currPlayerNum !== null ? actionIcon(currPlayerNum, onMachineClick, true, 'left') : undefined}
                 </div>
                 <div style={styles.board}>
                     <div style={styles.scores}>
@@ -313,17 +351,17 @@ const GamePage: React.FunctionComponent<GamePageProps> = (props: GamePageProps) 
                     </div>
                     <div style={styles.boardOutcome}>
                         <div style={styles.outcomeTextContainer}>
-                            {outcome && <h2 style={styles.outcomeText}>{outcome}</h2>}
+                            {outcome && <h2 style={media ? styles.outcomeTextMedia : styles.outcomeText}>{outcome}</h2>}
                         </div>
                         {didPlayerWin !== null &&
                             <h3>{didPlayerWin === undefined ? "it's a Tie!" : didPlayerWin ? "You Win!!" : "The Machine wins :-("}</h3>}
                     </div>
                 </div>
-                <div style={styles.selectedAction}>
-                    {currMachineNum ? actionIcon(currMachineNum, onMachineClick, props, true, 'right') : undefined}
+                <div style={media ? styles.selectedActionMedia : styles.selectedAction}>
+                    {selectedMachineNum !== null ? actionIcon(selectedMachineNum, onMachineClick, true, 'right') : undefined}
                 </div>
                 <div style={styles.computerIcons}>
-                    {machineIcons(onMachineClick, currMachineNum, props)}
+                    {machineIcons(onMachineClick, currMachineNum)}
                 </div>
             </div>
         </div>

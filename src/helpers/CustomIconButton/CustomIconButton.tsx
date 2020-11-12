@@ -37,7 +37,23 @@ const CustomIconButton: React.FunctionComponent<CustomIconButtonProps> = (props:
     }
 
     let className = props.isSelected ? 'selected' : 'not_selected';
-    props.side && (className = `${className} ${props.side}`);
+    if (props.side) {
+        if (props.iconType === IconTypes.Lizard) {
+            className = `${className} ${props.side}_lizard`
+        }
+        if (props.iconType === IconTypes.Paper) {
+            className = `${className} ${props.side}_paper`
+        }
+        if (props.iconType === IconTypes.Rock) {
+            className = `${className} ${props.side}_rock`
+        }
+        if (props.iconType === IconTypes.Scissors) {
+            className = `${className} ${props.side}_scissors`
+        }
+        if (props.iconType === IconTypes.Spock) {
+            className = `${className} ${props.side}_spock`
+        }
+    }
     return (
         <button
             id={'action_button'}
@@ -48,4 +64,4 @@ const CustomIconButton: React.FunctionComponent<CustomIconButtonProps> = (props:
     )
 }
 
-export default CustomIconButton
+export default CustomIconButton;
