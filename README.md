@@ -1,7 +1,10 @@
-# Getting Started with Create React App
+# [RPSLS](https://rockpaperscissors-vladif.web.app)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+###  Rock-Paper-Scissors-Lizard-Spock - Sheldon's favorite game
 
+A fun, animated rock-paper-scissors game variation adapted from ['The Big Band Theory'](https://the-big-bang-theory.com/).
+A responsive web application done using React framework. Pure CSS3 was used for styling and animations, utilizing React-Router for navigation.
+The app is hosted on [Firebase](https://firebase.google.com/).
 ## Available Scripts
 
 In the project directory, you can run:

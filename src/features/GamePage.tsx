@@ -13,6 +13,12 @@ const styles: any = {
         minHeight: '25rem',
         alignItems: 'center',
     },
+    boardMobile: {
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
     boardOutcome: {
         display: 'flex',
         flexDirection: 'column',
@@ -34,6 +40,10 @@ const styles: any = {
         display: 'flex',
         justifyContent: 'flex-end'
     },
+    computerMedia: {
+        display: 'flex',
+        alignItems: 'center',
+    },
     icon: {
         margin: '0.5rem 0'
     },
@@ -42,15 +52,32 @@ const styles: any = {
         display: "flex",
         flexDirection: 'column',
     },
-    iconSmall: {
-        width: '4rem',
-        margin: '0.5rem'
+    iconsMobile: {
+        margin: '0 2rem',
+        display: "flex",
+        flexDirection: 'column',
     },
     mainContainer: {
-        width: '90%',
+        width: '100%',
         display: "flex",
         flexDirection: 'row',
         alignItems: 'flex-start',
+    },
+    mainContainerMobile: {
+        width: '100%',
+        display: "flex",
+        flexDirection: 'column',
+        justifyContent: 'center'
+    },
+    mainContainerTop: {
+        display: "flex",
+        justifyContent: 'center',
+        height: '185px'
+    },
+    mainContainerBottom: {
+        display: "flex",
+        alignItems: 'center',
+        justifyContent: 'space-between'
     },
     outcomeText: {
         color: '#047dab',
@@ -76,6 +103,10 @@ const styles: any = {
         display: 'flex',
         justifyContent: 'flex-start'
     },
+    playerMedia: {
+        display: 'flex',
+        alignItems: 'center',
+    },
     root: {
         height: '100%',
         width: '100%',
@@ -91,7 +122,7 @@ const styles: any = {
         display: "flex",
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     scoreSeparator: {
         paddingBottom: '0.5rem'
@@ -108,11 +139,17 @@ const styles: any = {
         minHeight: '18.1rem',
         minWidth: '4rem'
     },
+    selectedActionMobile: {
+        display: "flex",
+        alignItems: 'flex-end',
+        minWidth: '4rem'
+    },
     topBar: {
         display: "flex",
         flexDirection: 'row',
         justifyContent: 'center',
-        paddingRight: '3rem'
+        alignItems: 'center',
+        //paddingRight: '3rem'
     }
 };
 
@@ -222,7 +259,7 @@ const actionIcon = (type: IconTypes, onClick: (type: IconTypes) => void, isSelec
 
 const resetIcon = (onClick: () => void) => {
     return (
-        <div style={styles.iconSmall}>
+        <div >
             <SmallIIconButton
                 isInfo={false}
                 onClick={onClick}
@@ -233,7 +270,7 @@ const resetIcon = (onClick: () => void) => {
 
 const rulesIcon = (onClick: () => void) => {
     return (
-        <div style={styles.iconSmall}>
+        <div >
             <SmallIIconButton
                 isInfo={true}
                 onClick={onClick}
@@ -242,9 +279,9 @@ const rulesIcon = (onClick: () => void) => {
     )
 }
 
-const playerIcons = (onClick: (type: IconTypes) => void) => {
+const playerIcons = (isMobile: boolean, onClick: (type: IconTypes) => void) => {
     return (
-        <div style={styles.icons}>
+        <div style={isMobile ? styles.iconsMobile : styles.icons}>
             {actionIcon(IconTypes.Rock, onClick)}
             {actionIcon(IconTypes.Paper, onClick)}
             {actionIcon(IconTypes.Scissors, onClick)}
@@ -254,9 +291,9 @@ const playerIcons = (onClick: (type: IconTypes) => void) => {
     )
 }
 
-const machineIcons = (onClick: () => void, currMachineNum: null | number) => {
+const machineIcons = (isMobile: boolean, onClick: () => void, currMachineNum: null | number) => {
     return (
-        <div style={styles.icons}>
+        <div style={isMobile ? styles.iconsMobile : styles.icons}>
             {actionIcon(IconTypes.Rock, onClick, currMachineNum === IconTypes.Rock)}
             {actionIcon(IconTypes.Paper, onClick, currMachineNum === IconTypes.Paper)}
             {actionIcon(IconTypes.Scissors, onClick, currMachineNum === IconTypes.Scissors)}
@@ -282,6 +319,7 @@ const GamePage: React.FunctionComponent<GamePageProps> = (props: GamePageProps) 
     }, []);
 
     const media = width !== undefined && width! >= 1160 ? false : true;
+    const mobile = width !== undefined && width! >= 640 ? false : true;
 
     const onMachineClick = () => {
         console.log("I can decide for myself!!")
@@ -335,40 +373,78 @@ const GamePage: React.FunctionComponent<GamePageProps> = (props: GamePageProps) 
         <div style={styles.root}>
             <div style={styles.topBar}>
                 {rulesIcon(onInfoClick)}
+                <div style={styles.scores}>
+                    <h3 style={styles.player}>Player</h3>
+                    <h2 style={styles.score}>{playerScore}</h2>
+                    <h2 style={styles.scoreSeparator}>:</h2>
+                    <h2 style={styles.score}>{machineScore}</h2>
+                    <h3 style={styles.player}>Machine</h3>
+                </div>
                 {resetIcon(onResetClick)}
             </div>
             <div style={styles.mainContainer}>
-                <div style={styles.playerIcons}>
-                    {playerIcons(onButtonPressed)}
-                </div>
-                <div style={media ? styles.selectedActionMedia : styles.selectedAction}>
-                    {currPlayerNum !== null ? actionIcon(currPlayerNum, onMachineClick, true, 'left') : undefined}
-                </div>
-                <div style={styles.board}>
-                    <div style={styles.scores}>
-                        <h3 style={styles.player}>Player</h3>
-                        <h2 style={styles.score}>{playerScore}</h2>
-                        <h2 style={styles.scoreSeparator}>:</h2>
-                        <h2 style={styles.score}>{machineScore}</h2>
-                        <h3 style={styles.player}>Machine</h3>
-                    </div>
-                    <div style={styles.boardOutcome}>
-                        <div style={styles.outcomeTextContainer}>
-                            {outcome && <h2 style={media ? styles.outcomeTextMedia : styles.outcomeText}>{outcome}</h2>}
-                        </div>
-                        {didPlayerWin !== null &&
-                            <div id='outcome'>
-                                <h3 >{didPlayerWin === undefined ? "it's a Tie!" : didPlayerWin ? "You Win!!" : "The Machine wins :-("}</h3>
+                {mobile
+                    ? <div style={styles.mainContainerMobile}>
+                        <div style={styles.mainContainerTop}>
+                            <div style={styles.boardMobile}>
+                                <div style={styles.boardOutcome}>
+                                    <div style={styles.outcomeTextContainer}>
+                                        {outcome && <h2 style={media ? styles.outcomeTextMedia : styles.outcomeText}>{outcome}</h2>}
+                                    </div>
+                                    {didPlayerWin !== null &&
+                                        <div id='outcome'>
+                                            <h3 >{didPlayerWin === undefined ? "it's a Tie!" : didPlayerWin ? "You Win!!" : "The Machine wins :-("}</h3>
+                                        </div>
+                                    }
+                                </div>
                             </div>
-                        }
+                        </div>
+                        <div style={styles.mainContainerBottom}>
+                            <div style={styles.playerMedia}>
+                                <div style={styles.playerIcons}>
+                                    {playerIcons(mobile, onButtonPressed)}
+                                </div>
+                                <div style={styles.selectedActionMobile}>
+                                    {currPlayerNum !== null ? actionIcon(currPlayerNum, onMachineClick, true, 'left') : undefined}
+                                </div>
+                            </div>
+                            <div style={styles.computerMedia}>
+                                <div style={styles.selectedActionMobile}>
+                                    {selectedMachineNum !== null ? actionIcon(selectedMachineNum, onMachineClick, true, 'right') : undefined}
+                                </div>
+                                <div style={styles.computerIcons}>
+                                    {machineIcons(mobile, onMachineClick, currMachineNum)}
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div style={media ? styles.selectedActionMedia : styles.selectedAction}>
-                    {selectedMachineNum !== null ? actionIcon(selectedMachineNum, onMachineClick, true, 'right') : undefined}
-                </div>
-                <div style={styles.computerIcons}>
-                    {machineIcons(onMachineClick, currMachineNum)}
-                </div>
+                    : <div style={styles.mainContainer}>
+                        <div style={styles.playerIcons}>
+                            {playerIcons(false, onButtonPressed)}
+                        </div>
+                        <div style={media ? styles.selectedActionMedia : styles.selectedAction}>
+                            {currPlayerNum !== null ? actionIcon(currPlayerNum, onMachineClick, true, 'left') : undefined}
+                        </div>
+                        <div style={styles.board}>
+                            <div style={styles.boardOutcome}>
+                                <div style={styles.outcomeTextContainer}>
+                                    {outcome && <h2 style={media ? styles.outcomeTextMedia : styles.outcomeText}>{outcome}</h2>}
+                                </div>
+                                {didPlayerWin !== null &&
+                                    <div id='outcome'>
+                                        <h3 >{didPlayerWin === undefined ? "it's a Tie!" : didPlayerWin ? "You Win!!" : "The Machine wins :-("}</h3>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div style={media ? styles.selectedActionMedia : styles.selectedAction}>
+                            {selectedMachineNum !== null ? actionIcon(selectedMachineNum, onMachineClick, true, 'right') : undefined}
+                        </div>
+                        <div style={styles.computerIcons}>
+                            {machineIcons(false, onMachineClick, currMachineNum)}
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     );
