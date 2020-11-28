@@ -13,6 +13,7 @@
     font-weight: 1000;
     text-align: center;
     box-shadow: 0.0625rem 0 0.1875rem 0.0625rem rgba(68, 140, 140, 0.5);
+    outline:none;
 }
 
 .selected {
